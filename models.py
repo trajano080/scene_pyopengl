@@ -44,21 +44,48 @@ class Model:
 class Car(Model):
     def __init__(self, size=1.0):
         Model.__init__(self, size)
+        glPushMatrix()
+        glRotate(90, 0, 1, 0)
+        glTranslatef(0, 2, 0)
         self.create()
+        glPopMatrix()
 
     def create(self):
         glPushMatrix()
         glScalef(1, 1, 2)
         x, y, z = self.position[0], self.position[1], self.position[2]
-        glTranslatef(x, y, z)
+        #glTranslatef(x, y, z)
         glRotatef(self.angle, 0, 1, 0)
-        axe(0.1*self.size, 0.1*self.size)
+        axe(0.5*self.size, self.size)
         glPopMatrix()
+
         # roue av droite
+        glPushMatrix()
+        glTranslatef(0.5*self.size, -0.5*self.size, self.size*0.3)
+        glRotatef(90, 0, 1, 0)
         self.wheel()
+        glPopMatrix()
+
         # roue av gauche
+        glPushMatrix()
+        glTranslatef(-0.5*self.size, -0.5*self.size, self.size*0.3)
+        glRotatef(-90, 0, 1, 0)
+        self.wheel()
+        glPopMatrix()
+
         # roue ar droite
+        glPushMatrix()
+        glTranslatef(0.5*self.size, -0.5*self.size, 1.6*self.size)
+        glRotatef(90, 0, 1, 0)
+        self.wheel()
+        glPopMatrix()
+
         # roue ar gauche
+        glPushMatrix()
+        glTranslatef(-0.5*self.size, -0.5*self.size, 1.6*self.size)
+        glRotatef(-90, 0, 1, 0)
+        self.wheel()
+        glPopMatrix()
 
     def bolt(self, radius, height):
         glColor3f(0.1, 0.1, 0.1)
@@ -143,8 +170,8 @@ def display():
     glEnable(GL_CULL_FACE)
     glMatrixMode(GL_MODELVIEW)
     glLoadIdentity()
-    #posx, posy, posz = 2, 5, 10
-    posx, posy, posz = 0, 0, 5
+    posx, posy, posz = 2, 5, 10
+    #posx, posy, posz = 0, 0, 5
     dirx, diry, dirz = 0, 0, 0
     vupx, vupy, vupz = 0, 1, 0
     gluLookAt(posx, posy, posz, dirx, diry, dirz, vupx, vupy, vupz)
