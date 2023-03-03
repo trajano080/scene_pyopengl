@@ -13,6 +13,8 @@ except:
 from primitives import wcs, floor
 from models import Car, Crane
 
+wcs_visible = True
+
 
 def gl_init():
     #  glClearColor(1.0,1.0,1.0,0.0);
@@ -56,6 +58,7 @@ class Scene:
         vupx, vupy, vupz = self.camera[6], self.camera[7], self.camera[8]
         gluLookAt(posx, posy, posz, dirx, diry, dirz, vupx, vupy, vupz)
         glRotatef(self.rotation_y, 0, 1, 0)
+        wcs(0.5)
         floor(10*self.size)
         # Object to catch
         glPushMatrix()
@@ -83,7 +86,7 @@ class Scene:
             glutIdleFunc(None)
         elif key == b'h':
             print("----------------------------------------")
-            print("Documentation Interaction  : LOPEZ Valentin et MENA Trajano")
+            print("Documentation Interaction  : Nom-Prenom ")
             print("h : afficher cette aide")
             print("s : sortie d'application")
             print("----------------------------------------")
@@ -150,7 +153,10 @@ class Scene:
         elif key == b'V':
             pass
         elif key == b'w':
-            pass
+            if wcs_visible == True:
+                wcs_visible == False
+            else:
+                wcs_visible == True
         elif key == 'W':
             pass
         else:

@@ -123,12 +123,50 @@ def joint(radius) :
 def torus(inner,outer,sides=10,rings=5) :
   glutSolidTorus(inner, outer, sides, rings)
 
-def axe(base,height,slices=10,stacks=5) :
-  # TODO : create 3D axe with disk, cylinder,cone
+def axe(base, height, slices=10, stacks=5, car=False):
+  glPushMatrix()
+
+  glTranslatef(0, 0, -height/2)
+  cylinder(base, base, height, slices, stacks)
+
+  glPushMatrix()
+  if car:
+      glColor3f(1, 0, 0)
+  glTranslatef(0, 0, height)
+  cone(base*1.3, height*0.2, slices, stacks)
+  glPopMatrix()
+
+  glPushMatrix()
+  disk(0, base)
+  # cone(base, height*0.1, slices, stacks)
+  glPopMatrix()
+
+  glPopMatrix()
+
   stick(base,base,height,slices,stacks)
 
-# def wcs(size) :
-  # TODO : redefine  WCS  with 3D axes (Ox,Oy,Oz)
+def wcs(size):
+  glDisable(GL_LIGHTING)
+
+  glPushMatrix()
+  glColor3f(1, 0, 0)
+  glRotatef(90, 0, 1, 0)
+  glTranslatef(0, 0, size / 2)
+  axe(size / 10, size)
+  glPopMatrix()
+
+  glPushMatrix()
+  glColor3f(0, 1, 0)
+  glRotatef(90, -1, 0, 0)
+  glTranslatef(0, 0, size / 2)
+  axe(size / 10, size)
+  glPopMatrix()
+
+  glPushMatrix()
+  glColor3f(0, 0, 1)
+  glTranslatef(0, 0, size / 2)
+  axe(size / 10, size)
+  glPopMatrix()
 
   
 def floor(size,tiles=10) :
