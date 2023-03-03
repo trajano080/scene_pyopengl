@@ -1,0 +1,70 @@
+Initia(lisa)tion
+================
+Tester sous l'interpreteur python
+   - python scene.py 
+
+Exercices
+=========
+Récupérer le travail de la première séance de labo pour créer un véhicule que l'on pourra déplacer dans le plan Oxz.
+
+On fournira une "aide en ligne" (touche h du clavier) dans lequel apparaitra sur le terminal :
+    - les NOM-Prénom des concepteurs de l'application
+    - les touches d'interaction commentées
+
+Première version
+----------------
+1- models.py : création du véhicule (class Car)
+   1-1 wheel() : créer une roue (un tore avec des boulons cylindriques)
+   1-2 create() : créer la carrosserie avec les 4 roues
+2- scene.py : contrôler les déplacements dans le plan Oxz
+   2-1 translations :
+      - faire avancer/reculer le véhicule 
+   2-2 rotations : 
+      - les roues et boulons tournent en même temps que le véhicule avance
+      - faire pivoter les roues avant lorsqu'on change d'orientation
+      - repositionner les roues avant dans la direcion où le véhicule se dirige
+3- intégrer un repère de scène 3D (wcs()) redimensionnable (size)  :
+   - axe() : création d'un axe (disque+cylindre+cone)
+   - wcs() : repere 3D (3 axes)
+   On représentera les axes avec le code de couleur conventionnel (R,G,B) pour (Ox,Oy,Oz).
+   Autrement dit :
+     a) axe Ox en Rouge
+     b) axe Oy en Vert
+     c) axe Oz en Bleu
+   Rendre visible/invisible ce repère par de touches d'interaction (w/W)
+
+Deuxième version
+----------------
+   intégrer un "bras articulé"  sur la voiture pour aller pointer un objet dans la scène
+
+Archivage
+=========
+Se déplacer sur le repertoire parent du répertoire de travail (Dupond_Dupont_Scene/).
+--> cd ..
+Creer une archive Dupond_Dupont_Scene.tgz du repertoire Dupond_Dupont_Scene/ :
+--> tar zcvf Dupond_Dupont_Scene.tgz Dupond_Dupont_Scene/
+Deposer cette archive sous le repertoire de rendu de travail  : 
+--> cp Dupond_Dupont_Scene.tgz /home/TP/TPrendu/nedelec/REV/Dupond_Dupont_Scene
+
+CONSIGNES
+=========
+En fin de chaque séance (17:30 au plus tard), deposer une archive de version : 
+
+      cp Dupond-Dupont_Scene.tgz /home/TP/TPrendu/nedelec/REV/Scene
+
+genere par la commande : 
+
+      tar zcvf Dupond-Dupont_Scene.tgz Dupond-Dupont_Scene/
+
+Cette archive contiendra  les fichiers suivants :
+   1- primitives.py
+   2- models.py
+   3- scene.py
+   4- TODO.txt
+
+Attention
+---------
+VERIFIER que l'archive n'est pas vide et qu'elle contient les fichiers de l'application : 
+--> tar ztvf Dupond_Dupont_Scene.tgz
+
+
