@@ -27,7 +27,7 @@ class Model:
         return self.size
 
     def set_orientation(self, angle):
-        print(angle)
+        # print(angle)
         self.angle = angle
 
     def get_orientation(self):
@@ -37,7 +37,7 @@ class Model:
         self.position = position
 
     def get_position(self):
-        return self.position
+        return self.position.copy()
 
     # Wheels rotation around Y axe
     def set_wheel_turn(self, angle):
