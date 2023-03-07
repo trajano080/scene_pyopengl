@@ -148,8 +148,8 @@ def axe(base, height, slices=10, stacks=5, car=False, Zshift=0):
     glPopMatrix()
 
     glPushMatrix()
-    disk(0, base)
-    # cone(base, height*0.1, slices, stacks)
+    #disk(0, base)
+    cone(base, height*0.1, slices, stacks)
     glPopMatrix()
 
     glPopMatrix()
