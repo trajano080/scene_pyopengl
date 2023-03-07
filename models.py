@@ -68,18 +68,19 @@ class Car(Model):
 
     def create(self):
         glPushMatrix()
-        glScalef(1, 1, 2)
+        #glScalef(1, 1, 2)
         x, y, z = self.position[0], self.position[1], self.position[2]
         glTranslatef(x, y, z)
         glRotatef(self.angle, 0, 1, 0)
-        axe(0.5*self.size, self.size, Zshift=-self.size/2)
+        # car body
+        Zshift = -self.size
+        axe(0.5*self.size, 2*self.size, Zshift=Zshift)
         glPopMatrix()
 
         glPushMatrix()
-        glTranslatef(0, 0, -self.size)
         # roue av droite
         glPushMatrix()
-        glTranslatef(0.5*self.size, -0.5*self.size, self.size*0.3)
+        glTranslatef(0.5*self.size, -0.5*self.size, self.size*0.3+Zshift)
         glRotatef(90, 0, 1, 0)
         glRotatef(self.wheelRotation, 0, 0, 1)
         self.wheel()
@@ -87,7 +88,7 @@ class Car(Model):
 
         # roue av gauche
         glPushMatrix()
-        glTranslatef(-0.5*self.size, -0.5*self.size, self.size*0.3)
+        glTranslatef(-0.5*self.size, -0.5*self.size, self.size*0.3+Zshift)
         glRotatef(-90, 0, 1, 0)
         glRotatef(self.wheelRotation, 0, 0, 1)
         self.wheel()
@@ -95,7 +96,7 @@ class Car(Model):
 
         # roue ar droite
         glPushMatrix()
-        glTranslatef(0.5*self.size, -0.5*self.size, 1.6*self.size)
+        glTranslatef(0.5*self.size, -0.5*self.size, 1.6*self.size+Zshift)
         glRotatef(90, 0, 1, 0)
         glRotatef(self.wheelTurn, 0, 1, 0)
         glRotatef(self.wheelRotation, 0, 0, 1)
@@ -104,7 +105,7 @@ class Car(Model):
 
         # roue ar gauche
         glPushMatrix()
-        glTranslatef(-0.5*self.size, -0.5*self.size, 1.6*self.size)
+        glTranslatef(-0.5*self.size, -0.5*self.size, 1.6*self.size+Zshift)
         glRotatef(-90, 0, 1, 0)
         glRotatef(self.wheelTurn, 0, 1, 0)
         glRotatef(self.wheelRotation, 0, 0, 1)
