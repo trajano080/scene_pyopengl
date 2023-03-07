@@ -76,7 +76,7 @@ class Car(Model):
         Zshift = -self.size
         axe(0.5*self.size, 2*self.size, Zshift=Zshift)
 
-        # roue av droite
+        # roue av gauche
         glPushMatrix()
         glTranslatef(0.5*self.size, -0.5*self.size, self.size*0.3+Zshift)
         glRotatef(90, 0, 1, 0)
@@ -84,15 +84,15 @@ class Car(Model):
         self.wheel()
         glPopMatrix()
 
-        # roue av gauche
+        # roue av droite
         glPushMatrix()
         glTranslatef(-0.5*self.size, -0.5*self.size, self.size*0.3+Zshift)
         glRotatef(-90, 0, 1, 0)
-        glRotatef(self.wheelRotation, 0, 0, 1)
+        glRotatef(-self.wheelRotation, 0, 0, 1)
         self.wheel()
         glPopMatrix()
 
-        # roue ar droite
+        # roue ar gauche
         glPushMatrix()
         glTranslatef(0.5*self.size, -0.5*self.size, 1.6*self.size+Zshift)
         glRotatef(90, 0, 1, 0)
@@ -101,12 +101,12 @@ class Car(Model):
         self.wheel()
         glPopMatrix()
 
-        # roue ar gauche
+        # roue ar droite
         glPushMatrix()
         glTranslatef(-0.5*self.size, -0.5*self.size, 1.6*self.size+Zshift)
         glRotatef(-90, 0, 1, 0)
         glRotatef(self.wheelTurn, 0, 1, 0)
-        glRotatef(self.wheelRotation, 0, 0, 1)
+        glRotatef(-self.wheelRotation, 0, 0, 1)
         self.wheel()
         glPopMatrix()
 
