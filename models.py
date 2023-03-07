@@ -56,9 +56,11 @@ class Car(Model):
         x, y, z = self.position[0], self.position[1], self.position[2]
         #glTranslatef(x, y, z)
         glRotatef(self.angle, 0, 1, 0)
-        axe(0.5*self.size, self.size)
+        axe(0.5*self.size, self.size, Zshift=-self.size/2)
         glPopMatrix()
 
+        glPushMatrix()
+        glTranslatef(0, 0, -self.size)
         # roue av droite
         glPushMatrix()
         glTranslatef(0.5*self.size, -0.5*self.size, self.size*0.3)
@@ -87,6 +89,8 @@ class Car(Model):
         self.wheel()
         glPopMatrix()
 
+        glPopMatrix()
+
     def bolt(self, radius, height):
         glColor3f(0.1, 0.1, 0.1)
         cylinder(radius, radius, height)
@@ -107,14 +111,6 @@ class Car(Model):
         glPopMatrix()
 
     def wheel(self, boulons=5):
-        # glutWireCube(0.2*self.size)
-        # angle = 360.0/boulons
-        # for i in range(boulons):
-        #     glPushMatrix()
-        #     glRotatef(angle*i, 0.0, 0.0, 1.0)
-        #     glTranslatef(0.70*(self.size/2.0), 0.0, 0.0)
-        #     glutWireCube(0.20*self.size)
-        #     glPopMatrix()
         inner = 0.1*self.size
         outer = 0.3*self.size
         boltLength = 0.15
