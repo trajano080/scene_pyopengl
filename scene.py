@@ -44,8 +44,8 @@ class Scene:
     def __init__(self, size):
         self.size = size
         self.model = Car(size)
-# self.camera=[0,0,5,0,0,0,0,1,0]
-        self.camera = [2, 3, 7, 0, 0, 0, 0, 1, 0]
+        #self.camera = [0, 0, 5, 0, 0, 0, 0, 1, 0]
+        self.camera = [5, 5, 5, 0, 0, 0, 0, 1, 0]
         self.perspective = [60.0, 1.0, 0.1, 50.0]
         self.rotation_y = 0.0
 
@@ -68,7 +68,10 @@ class Scene:
         glutSolidTeapot(self.size/5.0)
         glPopMatrix()
         # model to control
+        glPushMatrix()
+        glTranslatef(0, self.size*0.8, 0)
         self.model.create()
+        glPopMatrix()
         glutSwapBuffers()
 
     def reshape(self, width, height):
@@ -176,20 +179,40 @@ class Scene:
     def on_special_key_action(self, key, x, y):
         position = self.model.get_position()
         orientation = self.model.get_orientation()
+        wheelTurn = self.model.get_wheel_turn()
+        wheelRotation = self.model.get_wheel_rotation()
         if key == GLUT_KEY_UP:
             position[0] += 0.1*self.size*sin(orientation*pi/180.0)
             position[2] += 0.1*self.size*cos(orientation*pi/180.0)
+            wheelRotation += 5
+            if wheelTurn > 0:
+                wheelTurn -= 10
+            elif wheelTurn < 0:
+                wheelTurn += 10
         elif key == GLUT_KEY_DOWN:
             position[0] -= 0.1*self.size*sin(orientation*pi/180.0)
             position[2] -= 0.1*self.size*cos(orientation*pi/180.0)
+            wheelRotation -= 5
+            if wheelTurn > 0:
+                wheelTurn -= 10
+            elif wheelTurn < 0:
+                wheelTurn += 10
         elif key == GLUT_KEY_LEFT:
             orientation += 5
+            wheelRotation = 0
+            if wheelTurn <= 30:
+                wheelTurn += 10
         elif key == GLUT_KEY_RIGHT:
             orientation -= 5
+            wheelRotation = 0
+            if wheelTurn >= -30:
+                wheelTurn -= 10
         else:
             pass
         self.model.set_position(position)
         self.model.set_orientation(orientation)
+        self.model.set_wheel_turn(wheelTurn)
+        self.model.set_wheel_rotation(wheelRotation)
         glutPostRedisplay()
 
     def animation(self):

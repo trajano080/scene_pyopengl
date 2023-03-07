@@ -16,6 +16,8 @@ class Model:
         self.size = size
         self.angle = 0.0
         self.position = [0.0, 0.0, 0.0]
+        self.wheelTurn = 0.0
+        self.wheelRotation = 0.0
     # getter/setter
 
     def set_size(self, size):
@@ -37,6 +39,20 @@ class Model:
     def get_position(self):
         return self.position
 
+    # Wheels rotation around Y axe
+    def set_wheel_turn(self, angle):
+        self.wheelTurn = angle
+
+    def get_wheel_turn(self):
+        return self.wheelTurn
+
+    # Wheels rotation around Z axe
+    def set_wheel_rotation(self, angle):
+        self.wheelRotation = angle
+
+    def get_wheel_rotation(self):
+        return self.wheelRotation
+
     def create(self):
         raise NotImplementedError
 
@@ -54,7 +70,7 @@ class Car(Model):
         glPushMatrix()
         glScalef(1, 1, 2)
         x, y, z = self.position[0], self.position[1], self.position[2]
-        #glTranslatef(x, y, z)
+        glTranslatef(x, y, z)
         glRotatef(self.angle, 0, 1, 0)
         axe(0.5*self.size, self.size, Zshift=-self.size/2)
         glPopMatrix()
@@ -65,6 +81,7 @@ class Car(Model):
         glPushMatrix()
         glTranslatef(0.5*self.size, -0.5*self.size, self.size*0.3)
         glRotatef(90, 0, 1, 0)
+        glRotatef(self.wheelRotation, 0, 0, 1)
         self.wheel()
         glPopMatrix()
 
@@ -72,6 +89,7 @@ class Car(Model):
         glPushMatrix()
         glTranslatef(-0.5*self.size, -0.5*self.size, self.size*0.3)
         glRotatef(-90, 0, 1, 0)
+        glRotatef(self.wheelRotation, 0, 0, 1)
         self.wheel()
         glPopMatrix()
 
@@ -79,6 +97,8 @@ class Car(Model):
         glPushMatrix()
         glTranslatef(0.5*self.size, -0.5*self.size, 1.6*self.size)
         glRotatef(90, 0, 1, 0)
+        glRotatef(self.wheelTurn, 0, 1, 0)
+        glRotatef(self.wheelRotation, 0, 0, 1)
         self.wheel()
         glPopMatrix()
 
@@ -86,6 +106,8 @@ class Car(Model):
         glPushMatrix()
         glTranslatef(-0.5*self.size, -0.5*self.size, 1.6*self.size)
         glRotatef(-90, 0, 1, 0)
+        glRotatef(self.wheelTurn, 0, 1, 0)
+        glRotatef(self.wheelRotation, 0, 0, 1)
         self.wheel()
         glPopMatrix()
 
