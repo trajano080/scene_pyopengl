@@ -1,6 +1,6 @@
 # coding: utf-8
 
-from math import pi, sin, cos
+from math import pi, sin, cos, sqrt
 
 try:
     from OpenGL.GLUT import *
@@ -42,10 +42,15 @@ def glut_event(scene):
 
 class Scene:
     def __init__(self, size):
+        self.theta_y = 0.0
+        self.rho = sqrt(100)
+        self.phi = 60*pi/180
         self.size = size
         self.model = Car(size)
         #self.camera = [0, 0, 5, 0, 0, 0, 0, 1, 0]
-        self.camera = [5, 5, 5, 0, 0, 0, 0, 1, 0]
+        #self.camera = [5, 5, 5, 0, 0, 0, 0, 1, 0]
+        self.camera = [self.rho * sin(self.phi) * cos(self.theta_y), self.rho * cos(self.phi),
+                       self.rho * sin(self.phi) * sin(self.theta_y), 0, 0, 0, 0, 1, 0]  # Camera perspective
         self.perspective = [60.0, 1.0, 0.1, 50.0]
         self.rotation_y = 0.0
 
@@ -74,6 +79,10 @@ class Scene:
         glPopMatrix()
         glutSwapBuffers()
 
+    def setCamera(self):
+        self.camera = [self.rho * sin(self.phi) * cos(self.theta_y), self.rho * cos(self.phi),
+                       self.rho * sin(self.phi) * sin(self.theta_y), 0, 0, 0, 0, 1, 0]
+
     def reshape(self, width, height):
         glViewport(0, 0, width, height)
         glMatrixMode(GL_PROJECTION)
@@ -99,7 +108,10 @@ class Scene:
             print("a/A : lancer/Stopper l'animation")
             print("c/C : faces CW/CCW")
             print("f/F : faces/Aretes")
-            print("r/R : redimensionner la scene")
+            #print("r/R : redimensionner la scene")
+            print("y/Y : tourner l'objet autour de l'axe Oy\n")
+            print(
+                "z/Z : déplacer la caméra pour se rapprocher, s'éloigner du centre de la scène\n")
             print("i : etat initial de la scene")
             print("w : repere de scene visible/invisible")
             print("------")
@@ -162,8 +174,18 @@ class Scene:
                 wcs_visible == True
         elif key == 'W':
             pass
+        elif key == b'y':
+            self.theta_y -= 1.0*pi/180
+        elif key == b'Y':
+            self.theta_y += 1.0*pi/180
+        elif key == b'z':
+            self.rho -= 0.05
+        elif key == b'Z':
+            self.rho += 0.05
         else:
             pass
+
+        self.setCamera()
         glutPostRedisplay()
 
     def on_mouse_action(self, button, state, x, y):
