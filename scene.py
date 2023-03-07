@@ -13,8 +13,6 @@ except:
 from primitives import wcs, floor
 from models import Car, Crane
 
-wcs_visible = True
-
 
 def gl_init():
     #  glClearColor(1.0,1.0,1.0,0.0);
@@ -45,6 +43,7 @@ class Scene:
         self.theta_y = 0.0
         self.rho = sqrt(100)
         self.phi = 60*pi/180
+        self.wcs_visible = True
         self.size = size
         self.model = Car(size)
         #self.camera = [0, 0, 5, 0, 0, 0, 0, 1, 0]
@@ -63,7 +62,8 @@ class Scene:
         vupx, vupy, vupz = self.camera[6], self.camera[7], self.camera[8]
         gluLookAt(posx, posy, posz, dirx, diry, dirz, vupx, vupy, vupz)
         glRotatef(self.rotation_y, 0, 1, 0)
-        wcs(0.5)
+        if self.wcs_visible:
+            wcs(0.5)
         floor(10*self.size)
         # Object to catch
         glPushMatrix()
@@ -109,16 +109,16 @@ class Scene:
             print("c/C : faces CW/CCW")
             print("f/F : faces/Aretes")
             #print("r/R : redimensionner la scene")
-            print("y/Y : tourner l'objet autour de l'axe Oy\n")
-            print(
-                "z/Z : déplacer la caméra pour se rapprocher, s'éloigner du centre de la scène\n")
             print("i : etat initial de la scene")
-            print("w : repere de scene visible/invisible")
+            print("w/W : repere de scene visible/invisible")
             print("------")
             print("Camera")
             print("------")
-            print("n/N : se rapprocher/s'eloigner de la scene")
-            print("u/U : tourner autour de la scene")
+            #print("n/N : se rapprocher/s'eloigner de la scene")
+            #print("u/U : tourner autour de la scene")
+            print("y/Y : tourner l'objet autour de l'axe Oy\n")
+            print(
+                "z/Z : déplacer la caméra pour se rapprocher, s'éloigner du centre de la scène\n")
             print("----")
             print("Voiture")
             print("----")
@@ -168,12 +168,9 @@ class Scene:
         elif key == b'V':
             pass
         elif key == b'w':
-            if wcs_visible == True:
-                wcs_visible == False
-            else:
-                wcs_visible == True
-        elif key == 'W':
-            pass
+            self.wcs_visible = False
+        elif key == b'W':
+            self.wcs_visible = True
         elif key == b'y':
             self.theta_y -= 1.0*pi/180
         elif key == b'Y':
