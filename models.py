@@ -75,9 +75,7 @@ class Car(Model):
         # car body
         Zshift = -self.size
         axe(0.5*self.size, 2*self.size, Zshift=Zshift)
-        glPopMatrix()
 
-        glPushMatrix()
         # roue av droite
         glPushMatrix()
         glTranslatef(0.5*self.size, -0.5*self.size, self.size*0.3+Zshift)
