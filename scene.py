@@ -40,7 +40,8 @@ def glut_event(scene):
 
 class Scene:
     def __init__(self, size):
-        self.theta_y = 0.0
+        self.firstTime = True
+        self.theta_y = 45.0
         self.rho = sqrt(100)
         self.phi = 60*pi/180
         self.wcs_visible = True
@@ -52,6 +53,21 @@ class Scene:
                        self.rho * sin(self.phi) * sin(self.theta_y), 0, 0, 0, 0, 1, 0]  # Camera perspective
         self.perspective = [60.0, 1.0, 0.1, 50.0]
         self.rotation_y = 0.0
+
+        # Teapot initial state
+        self.Teapot_position = [-3, 0.5, 3]
+        self.Teapot_orientation = [45, 0, 1, 0]
+
+    def set_initial_state(self):
+        # Teapot
+        self.Teapot_position0 = self.Teapot_position.copy()
+        self.Teapot_orientation0 = self.Teapot_orientation.copy()
+
+        # Car
+        self.position0 = self.model.get_position()
+        self.orientation0 = self.model.get_orientation()
+        self.wheelTurn0 = self.model.get_wheel_turn()
+        self.wheelRotation0 = self.model.get_wheel_rotation()
 
     def display(self):
         gl_init()
@@ -65,19 +81,28 @@ class Scene:
         if self.wcs_visible:
             wcs(0.5)
         floor(10*self.size)
+
         # Object to catch
         glPushMatrix()
-        glTranslatef(-3, 0.5, 3)
-        glRotatef(45, 0, 1, 0)
+        glTranslatef(
+            self.Teapot_position[0], self.Teapot_position[1], self.Teapot_position[2])
+        glRotatef(self.Teapot_orientation[0], self.Teapot_orientation[1],
+                  self.Teapot_orientation[2], self.Teapot_orientation[3])
         glColor3f(1.0, 0.0, 1.0)
         glutSolidTeapot(self.size/5.0)
         glPopMatrix()
+
         # model to control
         glPushMatrix()
         glTranslatef(0, self.size*0.8, 0)
         self.model.create()
         glPopMatrix()
         glutSwapBuffers()
+
+        # To save the initial state of each object in the scene
+        if self.firstTime:
+            self.firstTime = False
+            self.set_initial_state()
 
     def setCamera(self):
         self.camera = [self.rho * sin(self.phi) * cos(self.theta_y), self.rho * cos(self.phi),
@@ -153,6 +178,17 @@ class Scene:
             pass
         elif key == b'G':
             pass
+        elif key == b'i':
+
+            # Teapot reset
+            self.Teapot_position = self.Teapot_position0
+            self.Teapot_orientation = self.Teapot_orientation0
+
+            # Car reset
+            self.model.set_position(self.position0)
+            self.model.set_orientation(self.orientation0)
+            self.model.set_wheel_turn(self.wheelTurn0)
+            self.model.set_wheel_rotation(self.wheelRotation0)
         elif key == b'n':
             pass
         elif key == b'N':
