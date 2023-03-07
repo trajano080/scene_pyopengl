@@ -86,7 +86,7 @@ class Scene:
             glutIdleFunc(None)
         elif key == b'h':
             print("----------------------------------------")
-            print("Documentation Interaction  : Nom-Prenom ")
+            print("Documentation Interaction  : LOPEZ Valentin et MENA Trajano")
             print("h : afficher cette aide")
             print("s : sortie d'application")
             print("----------------------------------------")
