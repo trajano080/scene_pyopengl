@@ -161,20 +161,20 @@ def wcs(size):
     glPushMatrix()
     glColor3f(1, 0, 0)
     glRotatef(90, 0, 1, 0)
-    glTranslatef(0, 0, size / 2)
+    # glTranslatef(0, 0, size / 2)
     axe(size / 10, size)
     glPopMatrix()
 
     glPushMatrix()
     glColor3f(0, 1, 0)
     glRotatef(90, -1, 0, 0)
-    glTranslatef(0, 0, size / 2)
+    # glTranslatef(0, 0, size / 2)
     axe(size / 10, size)
     glPopMatrix()
 
     glPushMatrix()
     glColor3f(0, 0, 1)
-    glTranslatef(0, 0, size / 2)
+    # glTranslatef(0, 0, size / 2)
     axe(size / 10, size)
     glPopMatrix()
 

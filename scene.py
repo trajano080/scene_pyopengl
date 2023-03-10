@@ -46,7 +46,8 @@ class Scene:
         self.phi = 60*pi/180
         self.wcs_visible = True
         self.size = size
-        self.model = Car(size)
+        self.car = Car(size)
+        self.crane = Crane(size/3)
         # self.crane = Crane(size)
         #self.camera = [0, 0, 5, 0, 0, 0, 0, 1, 0]
         #self.camera = [5, 5, 5, 0, 0, 0, 0, 1, 0]
@@ -65,14 +66,14 @@ class Scene:
         self.Teapot_orientation0 = self.Teapot_orientation.copy()
 
         # Car
-        self.position0 = self.model.get_position()
-        self.orientation0 = self.model.get_orientation()
-        self.wheelTurn0 = self.model.get_wheel_turn()
-        self.wheelRotation0 = self.model.get_wheel_rotation()
+        self.position0 = self.car.get_position()
+        self.orientation0 = self.car.get_orientation()
+        self.wheelTurn0 = self.car.get_wheel_turn()
+        self.wheelRotation0 = self.car.get_wheel_rotation()
 
-        # # Crane
-        # self.arm_angle = self.crane.get_arm_angle_arm()
-        # self.forarm_angle = self.crane.get_forarm_angle()
+        # Crane
+        self.arm_angle0 = self.crane.get_arm_angle_arm()
+        self.forarm_angle0 = self.crane.get_forarm_angle()
 
     def display(self):
         gl_init()
@@ -84,7 +85,7 @@ class Scene:
         gluLookAt(posx, posy, posz, dirx, diry, dirz, vupx, vupy, vupz)
         glRotatef(self.rotation_y, 0, 1, 0)
         if self.wcs_visible:
-            wcs(0.5)
+            wcs(self.size/2)
         floor(10*self.size)
 
         # Object to catch
@@ -100,7 +101,8 @@ class Scene:
         # model to control
         glPushMatrix()
         glTranslatef(0, self.size*0.8, 0)
-        self.model.create()
+        self.car.create()
+        self.crane.create()
         glPopMatrix()
         glutSwapBuffers()
 
@@ -166,9 +168,9 @@ class Scene:
             print("...: ....")
 
         elif key == b'b':
-            pass
+            self.crane.set_arm_angle(self.crane.get_arm_angle_arm() - 2)
         elif key == b'B':
-            pass
+            self.crane.set_arm_angle(self.crane.get_arm_angle_arm() + 2)
         elif key == b'c':
             glFrontFace(GL_CW)
         elif key == b'C':
@@ -180,9 +182,9 @@ class Scene:
         elif key == b'F':
             glPolygonMode(GL_FRONT_AND_BACK, GL_LINE)
         elif key == b'g':
-            pass
+            self.crane.set_forarm_angle(self.crane.get_forarm_angle() - 2)
         elif key == b'G':
-            pass
+            self.crane.set_forarm_angle(self.crane.get_forarm_angle() + 2)
         elif key == b'i':
 
             # Teapot reset
@@ -190,10 +192,14 @@ class Scene:
             self.Teapot_orientation = self.Teapot_orientation0
 
             # Car reset
-            self.model.set_position(self.position0)
-            self.model.set_orientation(self.orientation0)
-            self.model.set_wheel_turn(self.wheelTurn0)
-            self.model.set_wheel_rotation(self.wheelRotation0)
+            self.car.set_position(self.position0)
+            self.car.set_orientation(self.orientation0)
+            self.car.set_wheel_turn(self.wheelTurn0)
+            self.car.set_wheel_rotation(self.wheelRotation0)
+            self.crane.set_position(self.position0)
+            self.crane.set_orientation(self.orientation0)
+            self.crane.set_forarm_angle(self.forarm_angle0)
+            self.crane.set_arm_angle(self.arm_angle0)
         elif key == b'n':
             pass
         elif key == b'N':
@@ -237,10 +243,10 @@ class Scene:
         glutPostRedisplay()
 
     def on_special_key_action(self, key, x, y):
-        position = self.model.get_position()
-        orientation = self.model.get_orientation()
-        wheelTurn = self.model.get_wheel_turn()
-        wheelRotation = self.model.get_wheel_rotation()
+        position = self.car.get_position()
+        orientation = self.car.get_orientation()
+        wheelTurn = self.car.get_wheel_turn()
+        wheelRotation = self.car.get_wheel_rotation()
         if key == GLUT_KEY_UP:
             position[0] += 0.1*self.size*sin(orientation*pi/180.0)
             position[2] += 0.1*self.size*cos(orientation*pi/180.0)
@@ -269,10 +275,12 @@ class Scene:
                 wheelTurn -= 10
         else:
             pass
-        self.model.set_position(position)
-        self.model.set_orientation(orientation)
-        self.model.set_wheel_turn(wheelTurn)
-        self.model.set_wheel_rotation(wheelRotation)
+        self.car.set_position(position)
+        self.car.set_orientation(orientation)
+        self.car.set_wheel_turn(wheelTurn)
+        self.car.set_wheel_rotation(wheelRotation)
+        self.crane.set_position(position)
+        self.crane.set_orientation(-orientation)
         glutPostRedisplay()
 
     def animation(self):
