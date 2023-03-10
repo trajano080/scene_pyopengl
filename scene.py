@@ -46,8 +46,8 @@ class Scene:
         self.phi = 60*pi/180
         self.wcs_visible = True
         self.size = size
-        self.car = Car(size)
-        self.crane = Crane(size/3)
+        self.car = Car(self.size)
+        self.crane = Crane(self.size / 3.5)
         # self.crane = Crane(size)
         #self.camera = [0, 0, 5, 0, 0, 0, 0, 1, 0]
         #self.camera = [5, 5, 5, 0, 0, 0, 0, 1, 0]
@@ -100,8 +100,9 @@ class Scene:
 
         # model to control
         glPushMatrix()
-        glTranslatef(0, self.size*0.8, 0)
+        glTranslatef(0, self.car.get_size()*0.8, 0)
         self.car.create()
+        glTranslatef(0, self.car.get_size()/2, 0)
         self.crane.create()
         glPopMatrix()
         glutSwapBuffers()
@@ -132,7 +133,6 @@ class Scene:
             print("----------------------------------------")
             print("Documentation Interaction  : LOPEZ Valentin et MENA Trajano")
             print("h : afficher cette aide")
-            print("s : sortie d'application")
             print("----------------------------------------")
             print("---------")
             print("Affichage")
@@ -140,14 +140,14 @@ class Scene:
             print("a/A : lancer/Stopper l'animation")
             print("c/C : faces CW/CCW")
             print("f/F : faces/Aretes")
-            #print("r/R : redimensionner la scene")
+            print("r/R : redimensionner tous les objets")
+            print("k/K : redimensioner le car")
+            print("j/J : redimensioner le crane")
             print("i : etat initial de la scene")
             print("w/W : repere de scene visible/invisible")
             print("------")
             print("Camera")
             print("------")
-            #print("n/N : se rapprocher/s'eloigner de la scene")
-            #print("u/U : tourner autour de la scene")
             print("y/Y : tourner l'objet autour de l'axe Oy\n")
             print(
                 "z/Z : déplacer la caméra pour se rapprocher, s'éloigner du centre de la scène\n")
@@ -214,6 +214,20 @@ class Scene:
             pass
         elif key == b'V':
             pass
+        elif key == b'r':
+            self.car.set_size(self.car.get_size() + 0.1)
+            self.crane.set_size(self.crane.get_size() + 0.1/3)
+        elif key == b'R':
+            self.car.set_size(self.car.get_size() - 0.1)
+            self.crane.set_size(self.crane.get_size() - 0.1/3)
+        elif key == b'k':
+            self.car.set_size(self.car.get_size() + 0.1)
+        elif key == b'K':
+            self.car.set_size(self.car.get_size() - 0.1)
+        elif key == b'j':
+            self.crane.set_size(self.crane.get_size() + 0.1/3)
+        elif key == b'J':
+            self.crane.set_size(self.crane.get_size() - 0.1/3)
         elif key == b'w':
             self.wcs_visible = False
         elif key == b'W':
