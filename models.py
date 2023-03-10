@@ -60,9 +60,11 @@ class Model:
 class Car(Model):
     def __init__(self, size=1.0):
         Model.__init__(self, size)
+        self.size = size
         glPushMatrix()
         glRotate(90, 0, 1, 0)
         glTranslatef(0, 2, 0)
+        self.crane_ = Crane(size/3)
         self.create()
         glPopMatrix()
 
@@ -110,6 +112,10 @@ class Car(Model):
         self.wheel()
         glPopMatrix()
 
+        glPushMatrix()
+        self.crane()
+        glPopMatrix()
+
         glPopMatrix()
 
     def bolt(self, radius, height):
@@ -146,6 +152,10 @@ class Car(Model):
             self.bolt(0.02*self.size, boltLength)
             glPopMatrix()
 
+    def crane(self):
+        glTranslatef(0, self.size/2, 0)
+        self.crane_.create()
+        
 
 class Crane(Model):
     def __init__(self, size=1.0):
@@ -173,11 +183,43 @@ class Crane(Model):
         # arm :  a green cylinder
         glPushMatrix()
         glTranslatef(self.position[0], self.position[1], self.position[2])
-        glRotatef(self.angle, 0, 1, 0)
+        glRotatef(-self.angle, 0, 1, 0)
         glColor3f(1.0, 0.0, 0.0)
         cube(self.size)
+        # glPopMatrix()
+        # glPushMatrix()
+        # glTranslatef(self.position[0], self.position[1] + size, self.position[2])
+        glTranslatef(0, self.size*2, 0)
+        glRotatef(-self.arm_angle, 1, 0, 0)
+        glColor3f(1.0, 0.0, 0.0)
+        sphere(self.size)
+        # glPopMatrix()
+        # glPushMatrix()
+        # glTranslatef(self.position[0], self.position[1] + 2*size, self.position[2])
+        # glRotatef(self.angle, 0, 1, 0)
+        glColor3f(0.0, 1.0, 0.0)
+        glTranslatef(0.0, 0.0, 0.7*self.size)
+        cylinder(self.size*0.7, self.size*0.7, 3*self.size)
+        # glPopMatrix()
+        # glPushMatrix()
+        # glTranslatef(self.position[0], self.position[1] + 2*size + size*sin(self.arm_angle), self.position[2] + size*cos(self.arm_angle))
+        glRotatef(-self.forarm_angle, 1, 0, 0)
+        glTranslatef(0, 3*self.size*sin(-self.arm_angle*pi/180), 3*self.size*cos(-self.arm_angle*pi/180))
+        glColor3f(1.0, 0.0, 0.0)
+        sphere(self.size)
+        # glPopMatrix()
+        # glPushMatrix()
+        # glTranslatef(self.position[0], self.position[1] + 2*size, self.position[2])
+        glTranslatef(0, 0, 0.7*self.size)
+        # glRotatef(self.angle, 0, 1, 0)
+        glColor3f(0.0, 1.0, 0.0)
+        cylinder(0.7*self.size, 0.7*self.size, 3*self.size)
+        # glPopMatrix()
+        # glPushMatrix()
+        glTranslatef(0, 0, 3*self.size*cos(self.forarm_angle*pi/180))
+        glColor3f(0.0, 0.0, 1.0)
+        cone(self.size*1.3, self.size)
         glPopMatrix()
-
 
 def display():
     size = 2.0

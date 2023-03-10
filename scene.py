@@ -47,6 +47,7 @@ class Scene:
         self.wcs_visible = True
         self.size = size
         self.model = Car(size)
+        # self.crane = Crane(size)
         #self.camera = [0, 0, 5, 0, 0, 0, 0, 1, 0]
         #self.camera = [5, 5, 5, 0, 0, 0, 0, 1, 0]
         self.camera = [self.rho * sin(self.phi) * cos(self.theta_y), self.rho * cos(self.phi),
@@ -68,6 +69,10 @@ class Scene:
         self.orientation0 = self.model.get_orientation()
         self.wheelTurn0 = self.model.get_wheel_turn()
         self.wheelRotation0 = self.model.get_wheel_rotation()
+
+        # # Crane
+        # self.arm_angle = self.crane.get_arm_angle_arm()
+        # self.forarm_angle = self.crane.get_forarm_angle()
 
     def display(self):
         gl_init()
